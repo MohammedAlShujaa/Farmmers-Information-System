@@ -4,6 +4,7 @@ import './globals.css'
 import { AuthProvider } from '@/lib/auth-context'
 import { Toaster } from '@/components/ui/toaster'
 import { SITE_URL, SITE_NAME, SITE_TITLE, SITE_DESCRIPTION } from '@/lib/site'
+import { DEVELOPER, DEVELOPER_PRIMARY_LINK } from '@/lib/developer'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import { Analytics } from '@vercel/analytics/next'
 
@@ -22,7 +23,9 @@ export const metadata: Metadata = {
     'sistem informasi pertanian', 'kelompok tani', 'pertanian desa',
     'Desa Sukorejo', 'Bungah', 'Gresik',
   ],
-  authors: [{ name: 'KKN UNTAG Surabaya' }],
+  authors: [{ name: DEVELOPER.name, url: DEVELOPER_PRIMARY_LINK }, { name: 'KKN UNTAG Surabaya' }],
+  creator: DEVELOPER.name,
+  publisher: DEVELOPER.name,
   openGraph: {
     type: 'website',
     locale: 'id_ID',

@@ -7,6 +7,8 @@ import { Leaf, BarChart3, Bell, Shield, CheckCircle, FileText, Users, MapPin, Wh
 import { prisma } from '@/lib/prisma'
 import { HeroSlider } from '@/components/hero-slider'
 import { LandingNavbar } from '@/components/landing-navbar'
+import { SITE_URL, SITE_TITLE, SITE_DESCRIPTION, SITE_NAME } from '@/lib/site'
+import { DEVELOPER, DEVELOPER_LINKS, DEVELOPER_PRIMARY_LINK } from '@/lib/developer'
 
 // ─── CMS defaults ─────────────────────────────────────────────────────────────
 
@@ -106,8 +108,29 @@ export default async function HomePage() {
   const showStats = cms.cms_show_stats as boolean
   const credits = (cms as Record<string, unknown>).cms_credits as typeof CMS_DEFAULTS.cms_credits ?? CMS_DEFAULTS.cms_credits
 
+  // Structured data (schema.org) — names the developer as the creator so search
+  // engines can associate "Mohammed AL-Shujaa" with this project.
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: SITE_TITLE,
+    alternateName: SITE_NAME,
+    url: SITE_URL,
+    description: SITE_DESCRIPTION,
+    inLanguage: 'id-ID',
+    creator: {
+      '@type': 'Person',
+      name: DEVELOPER.name,
+      jobTitle: DEVELOPER.title,
+      email: `mailto:${DEVELOPER.email}`,
+      ...(DEVELOPER_LINKS.length ? { url: DEVELOPER_LINKS[0], sameAs: DEVELOPER_LINKS } : {}),
+    },
+    author: { '@type': 'Person', name: DEVELOPER.name },
+  }
+
   return (
     <div className="min-h-screen bg-white font-sans">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
       {/* ── Navbar (transparent → solid on scroll) ──────────────────────────── */}
       <LandingNavbar />
@@ -411,6 +434,12 @@ export default async function HomePage() {
           <span className="text-white font-semibold">SI Panen GAPOKTAN</span>
         </div>
         <p>© 2026 Gapoktan Information System for Agricultural Harvest Production Data Documentation. Untuk kemajuan pertanian desa Indonesia.</p>
+        <p className="mt-2 text-xs text-gray-500">
+          Dikembangkan oleh{' '}
+          <a href={DEVELOPER_PRIMARY_LINK} target="_blank" rel="noopener noreferrer author" className="text-green-400 hover:text-green-300 font-medium">
+            {DEVELOPER.name}
+          </a>
+        </p>
       </footer>
     </div>
   )
