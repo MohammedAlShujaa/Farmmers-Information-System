@@ -58,7 +58,7 @@ Aplikasi web untuk **dokumentasi dan pelaporan data produksi hasil panen** kelom
 
 ```bash
 # 1. Clone repository
-git clone https://github.com/MohammedGamil19/Farmmers-Information-System.git
+git clone https://github.com/MohammedAlShujaa/Farmmers-Information-System.git
 cd Farmmers-Information-System
 
 # 2. Install dependencies
