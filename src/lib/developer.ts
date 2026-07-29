@@ -12,8 +12,8 @@ export const DEVELOPER = {
   // Fill in the URLs you have; empty ones are ignored.
   profiles: {
     website: '',  // e.g. https://your-portfolio.com
-    linkedin: '', // e.g. https://www.linkedin.com/in/your-handle
-    github: '',   // e.g. https://github.com/your-handle
+    linkedin: 'https://www.linkedin.com/in/shujaa-shu-jaa-071042258/',
+    github: 'https://github.com/MohammedAlShujaa',
   },
 }
 

@@ -1,194 +1,167 @@
-# Hydroponic pH & TDS Monitoring System
+# Sistem Informasi Dokumentasi Data Produksi Hasil Panen Pertanian
 
-Sistem pemantauan pH & TDS hidroponik berbasis web untuk komunitas pertanian desa.
+Aplikasi web untuk **dokumentasi dan pelaporan data produksi hasil panen** kelompok tani (GAPOKTAN) tingkat desa. Petani mencatat setiap panen per kebun dan per jenis tanaman, lalu data direkap otomatis menjadi grafik dan laporan yang bisa diekspor.
 
-## Fitur Utama
+🌐 **Live:** [gapoktansukorejo.com](https://gapoktansukorejo.com)
+📍 Dibangun untuk **GAPOKTAN Desa Sukorejo, Kec. Bungah, Kab. Gresik** — program KKN UNTAG Surabaya.
 
-- **Dashboard** - Ringkasan statistik, grafik tren, notifikasi
-- **Manajemen Kebun** - CRUD kebun, timeline siklus panen
-- **Monitoring Harian** - Input pH & TDS dengan validasi real-time
-- **Rekomendasi Cerdas** - Saran perbaikan otomatis berbasis nilai pH/TDS
-- **Analitik** - Grafik tren, distribusi status, filter periode
-- **Laporan** - Export PDF & Excel
-- **Notifikasi** - Alert nilai abnormal & panen
-- **Manajemen Pengguna** - CRUD pengguna dengan RBAC
-- **Manajemen Desa** - CRUD data desa
-- **Dark/Light Mode** - Melalui next-themes
-
-## Peran Pengguna
-
-| Peran | Akses |
-|-------|-------|
-| Super Admin | Semua fitur, konfigurasi sistem |
-| Village Admin | Manajemen desa & petani, laporan |
-| Farmer/Petani | Input monitoring, lihat kebun sendiri |
-
-## Akun Demo
-
-| Email | Password | Peran |
-|-------|----------|-------|
-| superadmin@hydro.id | password123 | Super Admin |
-| admin@desa1.id | password123 | Admin Desa |
-| petani1@desa1.id | password123 | Petani |
-| petani2@desa1.id | password123 | Petani |
-
-## Stack Teknologi
-
-- **Frontend:** Next.js 15 + TypeScript + TailwindCSS
-- **Backend:** Next.js API Routes (Route Handlers)
-- **Database:** PostgreSQL
-- **ORM:** Prisma 7
-- **Auth:** JWT + bcryptjs + RBAC
-- **Charts:** Recharts
-- **Export:** jsPDF + xlsx
-
-## Persyaratan Sistem
-
-- Node.js >= 20.9
-- PostgreSQL >= 14
-- npm >= 9
-
-## Instalasi & Menjalankan
-
-### 1. Clone / salin project
-
-```bash
-cd hydroponic-monitor
-npm install
-```
-
-### 2. Konfigurasi Environment
-
-Salin `.env.example` atau edit `.env`:
-
-```env
-DATABASE_URL="postgresql://username:password@localhost:5432/hydroponic_monitor?schema=public"
-JWT_SECRET="ganti-dengan-secret-panjang-yang-aman"
-NEXT_PUBLIC_APP_NAME="Hydroponic pH & TDS Monitor"
-NEXT_PUBLIC_APP_URL="http://localhost:3000"
-```
-
-### 3. Setup Database
-
-```bash
-# Push schema ke database
-npm run db:push
-
-# Isi data sample (opsional)
-npm run db:seed
-```
-
-### 4. Jalankan Development Server
-
-```bash
-npm run dev
-```
-
-Buka http://localhost:3000
-
-### 5. Build Production
-
-```bash
-npm run build
-npm run start
-```
-
-## Deployment
-
-### Vercel (Direkomendasikan)
-
-1. Push ke GitHub
-2. Hubungkan repo ke Vercel
-3. Tambahkan environment variables di Vercel Dashboard
-4. Deploy otomatis
-
-### Railway / Render
-
-1. Buat PostgreSQL database
-2. Set `DATABASE_URL` dari database yang dibuat
-3. Deploy Next.js app
-
-### Self-hosted (VPS)
-
-```bash
-npm run build
-pm2 start npm --name "hydro-monitor" -- start
-```
-
-Gunakan Nginx sebagai reverse proxy ke port 3000.
-
-## Struktur Folder
-
-```
-hydroponic-monitor/
-├── prisma/
-│   ├── schema.prisma        # Database schema
-│   └── seed.ts              # Data sample
-├── src/
-│   ├── app/
-│   │   ├── api/             # API Routes
-│   │   │   ├── auth/        # Login, logout, me
-│   │   │   ├── farms/       # CRUD kebun
-│   │   │   ├── monitoring/  # CRUD monitoring records
-│   │   │   ├── villages/    # CRUD desa
-│   │   │   ├── users/       # CRUD pengguna
-│   │   │   ├── analytics/   # Data analitik
-│   │   │   ├── notifications/ # Notifikasi
-│   │   │   └── plant-types/ # Jenis tanaman
-│   │   ├── (auth)/          # Halaman login
-│   │   ├── (dashboard)/     # Halaman dashboard utama
-│   │   └── (admin)/         # Halaman admin
-│   ├── components/
-│   │   ├── ui/              # Komponen UI reusable
-│   │   └── layout/          # Sidebar, navbar
-│   └── lib/
-│       ├── auth.ts          # JWT utilities
-│       ├── auth-context.tsx # React auth context
-│       ├── api.ts           # API client
-│       ├── prisma.ts        # Prisma client
-│       ├── recommendations.ts # Engine rekomendasi
-│       └── utils.ts         # Helper functions
-```
-
-## API Endpoints
-
-| Method | Endpoint | Deskripsi |
-|--------|----------|-----------|
-| POST | /api/auth/login | Login |
-| POST | /api/auth/logout | Logout |
-| GET | /api/auth/me | Info user login |
-| GET/POST | /api/farms | Daftar/buat kebun |
-| GET/PUT/DELETE | /api/farms/[id] | Detail/edit/hapus kebun |
-| GET/POST | /api/monitoring | Daftar/buat monitoring |
-| PUT/DELETE | /api/monitoring/[id] | Edit/hapus monitoring |
-| GET/POST | /api/villages | Daftar/buat desa |
-| PUT/DELETE | /api/villages/[id] | Edit/hapus desa |
-| GET/POST | /api/users | Daftar/buat pengguna |
-| PUT/DELETE | /api/users/[id] | Edit/hapus pengguna |
-| GET | /api/analytics | Data analitik |
-| GET/POST | /api/plant-types | Jenis tanaman |
-| GET/PATCH | /api/notifications | Notifikasi |
-
-## Keamanan
-
-- Password di-hash menggunakan bcryptjs (12 rounds)
-- JWT token dengan expiry 7 hari
-- Role-Based Access Control di setiap endpoint
-- HTTP-only cookie untuk token
-- Input validation di semua form
-- Proteksi SQL injection via Prisma ORM
-
-## Range pH & TDS per Tanaman
-
-| Tanaman | pH Min | pH Max | TDS Min | TDS Max |
-|---------|--------|--------|---------|---------|
-| Selada | 6.0 | 7.0 | 560 | 840 ppm |
-| Kangkung | 5.5 | 6.5 | 1120 | 1680 ppm |
-| Bayam | 6.0 | 7.0 | 1260 | 1610 ppm |
-| Tomat | 5.5 | 6.5 | 1400 | 3500 ppm |
-| Cabai | 5.5 | 7.0 | 1260 | 3500 ppm |
-| Sawi | 6.0 | 7.0 | 1050 | 1400 ppm |
+> Sebelumnya proyek ini adalah alat pemantauan pH/TDS hidroponik, kemudian dialihkan sepenuhnya menjadi sistem dokumentasi hasil panen. Seluruh fitur monitoring pH/TDS sudah dihapus.
 
 ---
 
-Dibuat untuk digitalisasi pertanian hidroponik desa Indonesia. 🌿
+## ✨ Fitur Utama
+
+- **Dashboard** — ringkasan produksi (total panen, kebun, jenis tanaman), grafik tren, dan aktivitas terbaru.
+- **Dokumentasi Panen** — catat hasil panen (tanggal, kebun, jenis tanaman, jumlah kg, catatan). Desa & petani otomatis terisi dari kebun yang dipilih.
+- **Manajemen Kebun & Lahan** — data kebun (farm) dan lahan (land plot) per anggota.
+- **Manajemen Anggota** — data petani anggota GAPOKTAN.
+- **Jenis Tanaman** — master data komoditas.
+- **Analitik** — grafik produksi per kebun, per jenis tanaman, dan per periode (Recharts).
+- **Laporan** — ekspor rekap panen ke **PDF** dan **Excel**.
+- **Pengumuman & Kalender Kegiatan** — informasi dan agenda kelompok tani.
+- **Aktivitas** — log audit setiap perubahan data.
+- **Notifikasi** — pengingat tahap tanam & panen mendatang.
+- **CMS Halaman Utama** — admin dapat mengubah teks, gambar, dan galeri landing page tanpa menyentuh kode.
+- **Profil Pengguna** — halaman profil yang menyesuaikan peran.
+- **SEO siap produksi** — metadata, `robots.txt`, `sitemap.xml`, Open Graph image, dan data terstruktur schema.org.
+
+## 👥 Peran Pengguna
+
+| Peran | Akses |
+|-------|-------|
+| **Admin** | Seluruh fitur: kelola pengguna, kebun, lahan, tanaman, pengumuman, kalender, CMS, dan laporan. |
+| **Petani (Farmer)** | Input dan lihat data panen serta kebun miliknya sendiri. |
+
+## 🛠️ Stack Teknologi
+
+| Lapisan | Teknologi |
+|--------|-----------|
+| Framework | **Next.js 16** (App Router) + **React 19** |
+| Bahasa | **TypeScript** |
+| Styling | **Tailwind CSS 4** + Radix UI |
+| Database | **PostgreSQL** (Neon serverless) |
+| ORM | **Prisma 7.8** dengan `@prisma/adapter-neon` |
+| Autentikasi | **JWT** + **bcryptjs** (RBAC) |
+| Grafik | **Recharts** |
+| Ekspor | **jsPDF** + **xlsx** |
+| Media | **Cloudinary** |
+| Hosting | **Vercel** (region `sin1` — Singapura) |
+
+## 🚀 Instalasi & Menjalankan
+
+### Persyaratan
+- Node.js ≥ 20.9
+- Database PostgreSQL (mis. [Neon](https://neon.tech))
+- npm ≥ 9
+
+### Langkah
+
+```bash
+# 1. Clone repository
+git clone https://github.com/MohammedGamil19/Farmmers-Information-System.git
+cd Farmmers-Information-System
+
+# 2. Install dependencies
+npm install
+
+# 3. Siapkan environment (lihat bagian di bawah)
+#    buat file .env
+
+# 4. Push schema & isi data awal
+npm run db:push
+npm run db:seed
+
+# 5. Jalankan development server
+npm run dev
+```
+
+Buka [http://localhost:3000](http://localhost:3000).
+
+### Environment Variables (`.env`)
+
+```env
+DATABASE_URL="postgresql://user:password@host/db?sslmode=require"
+JWT_SECRET="ganti-dengan-string-acak-yang-panjang-dan-aman"
+NEXT_PUBLIC_SITE_URL="https://gapoktansukorejo.com"
+
+# Opsional
+GOOGLE_SITE_VERIFICATION="kode-dari-google-search-console"
+CLOUDINARY_URL="cloudinary://api_key:api_secret@cloud_name"
+CREDITS_PASSWORD="password-untuk-panel-kredit"
+```
+
+> **Penting:** `JWT_SECRET` wajib diisi dengan nilai yang aman di produksi — jangan gunakan nilai default.
+
+## 📦 Skrip NPM
+
+| Skrip | Fungsi |
+|-------|--------|
+| `npm run dev` | Development server |
+| `npm run build` | `prisma generate` + build produksi |
+| `npm run start` | Menjalankan build produksi |
+| `npm run db:push` | Sinkronisasi schema Prisma ke database |
+| `npm run db:seed` | Mengisi data contoh |
+| `npm run db:studio` | Buka Prisma Studio |
+
+## 🗂️ Struktur Proyek
+
+```
+src/
+├── app/
+│   ├── (auth)/          # Login & registrasi
+│   ├── (dashboard)/     # Dashboard, panen, farms, lahan, analytics,
+│   │                    #   reports, tanaman, pengumuman, kalender,
+│   │                    #   aktivitas, notifications, profile
+│   ├── (admin)/admin/   # users, villages, cms, settings
+│   ├── api/             # Route handlers (lihat tabel di bawah)
+│   ├── page.tsx         # Landing page (CMS-driven)
+│   ├── layout.tsx       # Metadata & SEO
+│   ├── robots.ts        # robots.txt
+│   ├── sitemap.ts       # sitemap.xml
+│   └── opengraph-image.tsx
+├── components/          # UI & layout (sidebar, dsb.)
+└── lib/                 # auth, prisma, site, developer, utils
+prisma/
+├── schema.prisma        # Model: User, Village, PlantType, Farm, Lahan,
+│                        #   Panen, Announcement, CalendarEvent,
+│                        #   Notification, ActivityLog, SystemSetting
+└── seed.ts
+```
+
+## 🔌 API Endpoints (ringkas)
+
+| Endpoint | Deskripsi |
+|----------|-----------|
+| `/api/auth/*` | login, logout, me, register |
+| `/api/panen`, `/api/panen/[id]` | Dokumentasi hasil panen |
+| `/api/farms`, `/api/lahan` | Kebun & lahan |
+| `/api/anggota`, `/api/users` | Anggota & pengguna |
+| `/api/plant-types` | Jenis tanaman |
+| `/api/pengumuman`, `/api/kalender` | Pengumuman & kalender |
+| `/api/dashboard`, `/api/analytics` | Ringkasan & analitik |
+| `/api/activity`, `/api/notifications` | Log aktivitas & notifikasi |
+| `/api/cms`, `/api/settings` | Konten landing page & pengaturan |
+| `/api/upload` | Upload media (Cloudinary) |
+
+## 🔒 Keamanan
+
+- Password di-hash dengan **bcryptjs** (12 rounds).
+- Autentikasi **JWT** via HTTP-only cookie.
+- **Role-Based Access Control** di setiap endpoint.
+- Validasi input dan proteksi SQL injection melalui **Prisma ORM**.
+
+## ☁️ Deployment
+
+Terhubung ke **Vercel** dengan deploy otomatis pada setiap push ke branch `main`. Tambahkan semua environment variables di dashboard Vercel, lalu deploy.
+
+---
+
+## 👨‍💻 Developer
+
+Dikembangkan oleh **Mohammed AL-Shujaa** — Web Developer.
+
+- 🔗 LinkedIn: [linkedin.com/in/shujaa-shu-jaa-071042258](https://www.linkedin.com/in/shujaa-shu-jaa-071042258/)
+- 💻 GitHub: [github.com/MohammedAlShujaa](https://github.com/MohammedAlShujaa)
+- 📧 Email: mg.shujaa@gmail.com
+
+Dibuat sebagai bagian dari program **KKN UNTAG Surabaya** untuk mendukung digitalisasi dokumentasi hasil panen pertanian desa di Indonesia. 🌾
