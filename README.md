@@ -6,8 +6,6 @@ A web application for documenting and reporting agricultural harvest production 
 
 📍 Built for **GAPOKTAN Desa Sukorejo, Bungah District, Gresik Regency, Indonesia**, a KKN (community service) program of UNTAG Surabaya.
 
-> This project was originally a hydroponic pH/TDS monitoring tool, then fully pivoted into a harvest documentation system. All pH/TDS monitoring features have been removed.
-
 ---
 
 ## Features
